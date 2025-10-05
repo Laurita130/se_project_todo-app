@@ -141,6 +141,11 @@
   margin-top: 20px;
 }
 
+.popup__button_disabled {
+  pointer-events: none;
+  background-color: #9da5c44d;
+}
+
 @media screen and (max-width: 630px) {
   .popup {
     align-items: flex-end;

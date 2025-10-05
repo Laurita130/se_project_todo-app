@@ -1,5 +1,5 @@
 .button {
-  background-color: #5877e7;
+  background-color: #b5bee0;
 }
 
 .button:hover {
@@ -9,11 +9,6 @@
 
 .button:active {
   background-color: #2a45a3;
-}
-
-.button_disabled {
-  pointer-events: none;
-  background-color: #5877e74d;
 }
 
 .button_action_add {
