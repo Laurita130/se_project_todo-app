@@ -40,7 +40,6 @@ addTodoForm.addEventListener("submit", (evt) => {
   const name = evt.target.name.value;
   const dateInput = evt.target.date.value;
 
-  // Create a date object and adjust for timezone
   const date = new Date(dateInput);
   date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
   const dueDate = Date.parse(date);
@@ -50,6 +49,7 @@ addTodoForm.addEventListener("submit", (evt) => {
     const todo = generateTodo(values);
     todosList.append(todo);
     evt.target.reset();
+    newTodoValidator.resetValidation();
     closeModal(addTodoPopup);
   }
 });
