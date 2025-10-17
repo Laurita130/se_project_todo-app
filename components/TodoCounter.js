@@ -23,9 +23,8 @@ class TodoCounter {
   // Call this when a to-do is deleted, or when a to-do is
   // created via the form.
   updateTotal = (increment) => {
-    // if increment is true, add 1 to this._total. Otherwise,
-    // subtract 1. In either case, call the method to update the
-    this._updateText;
+    // this._total += increment ? 1 : -1;
+    //this._updateText();
   };
 
   // Call the method to update the text content

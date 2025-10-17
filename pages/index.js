@@ -28,7 +28,7 @@ const addTodoPopup = new PopupWithForm({
 const section = new Section({
   items: initialTodos,
   renderer: (item) => {
-    const todo = new Todo(item, "#todo-template");
+    const todo = new Todo(item, "#todo-template", handleCheck);
     const todoElement = todo.getView();
     section.addItem(todoElement);
   },
@@ -76,14 +76,15 @@ addTodoForm.addEventListener("submit", (evt) => {
   const name = evt.target.name.value;
   const dateInput = evt.target.date.value;
 
-  const date = new Date(dateInput);
-  date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
-  const dueDate = Date.parse(date);
+  const [year, month, day] = dateInput.split("-");
+  const date = new Date(Date.UTC(year, month - 1, day));
+  const dueDate = date.getTime();
+
   if (!isNaN(dueDate)) {
     const id = uuidv4();
     const values = { name, date, id };
     const todo = generateTodo(values);
-    todosList.append(todo);
+    section.addItem(todo);
     evt.target.reset();
     newTodoValidator.resetValidation();
 
