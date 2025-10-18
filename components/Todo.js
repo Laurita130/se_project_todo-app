@@ -15,9 +15,11 @@ class Todo {
     this._handleDeleteBtn =
       this._todoElement.querySelector(".todo__delete-btn");
     this._handleDeleteBtn.addEventListener("click", () => {
-      this._todoElement.remove();
       this._handleDelete(this._completed);
+      this._todoElement.remove();
+      this._remove();
     });
+
     this._todoCheckboxEl.addEventListener("change", () => {
       this._toggleCompletion();
       this._handleCheck(this._completed);
@@ -42,6 +44,11 @@ class Todo {
   _toggleCompletion() {
     this._completed = !this._completed;
   }
+  _remove = () => {
+    this._element.remove();
+
+    this._element = null;
+  };
 
   _generateTodoDateEl() {
     this._todoDate = this._element.querySelector(".todo__date");
