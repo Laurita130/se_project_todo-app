@@ -26,7 +26,7 @@ class TodoCounter {
   // created via the form.
   updateTotal = (increment) => {
     // if increment is true, add one to this._total .Otherwise, subtract one.
-    //in either case, call the method to update the text context
+
     if (increment) {
       this._total += 1;
     } else {

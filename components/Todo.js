@@ -26,6 +26,11 @@ class Todo {
     });
   };
 
+  _remove() {
+    this._todoElement.remove();
+    this._todoElement = null;
+  }
+
   _getTemplate() {
     return document
       .querySelector(this._templateSelector)
@@ -44,11 +49,6 @@ class Todo {
   _toggleCompletion() {
     this._completed = !this._completed;
   }
-  _remove = () => {
-    this._element.remove();
-
-    this._element = null;
-  };
 
   _generateTodoDateEl() {
     this._todoDate = this._element.querySelector(".todo__date");
@@ -73,7 +73,6 @@ class Todo {
       .cloneNode(true);
     const todoNameEl = this._todoElement.querySelector(".todo__name");
     const todoDate = this._todoElement.querySelector(".todo__date");
-    const todoDeleteBtn = this._todoElement.querySelector(".todo__delete-btn");
     todoNameEl.textContent = this._data.name;
     todoDate.textContent = this._data.date
       ? `Due: ${new Date(this._data.date).toLocaleString("en-US", {

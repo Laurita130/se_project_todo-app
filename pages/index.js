@@ -11,26 +11,11 @@ const addTodoButton = document.querySelector(".button_action_add");
 const addTodoPopupEl = document.querySelector("#add-todo-popup");
 const addTodoForm = addTodoPopupEl.querySelector(".popup__form");
 const addTodoCloseBtn = addTodoPopupEl.querySelector(".popup__close");
-const todoTemplate = document.querySelector("#todo-template");
 const todosList = document.querySelector(".todos__list");
 
 const todoCounter = new TodoCounter(initialTodos, ".counter__text");
 
-const addTodoPopup = new PopupWithForm({
-  popupSelector: "#add-todo-popup",
-  handleFormSubmit: (formData) => {
-    const name = formData.name;
-    const dateInput = formData.date;
-    const [year, month, day] = dateInput.split("-");
-    const date = new Date(Date.UTC(year, month - 1, day));
-    const dueDate = date.getTime();
-    const id = uuidv4();
-    const values = { name, date: dueDate, id };
-    const todo = generateTodo(values);
-    section.addItem(todo);
-    addTodoPopup.close();
-  },
-});
+initAddTodoForm();
 
 const openModal = (modal) => {
   modal.classList.add("popup_visible");
@@ -39,15 +24,40 @@ const closeModal = (modal) => {
   modal.classList.remove("popup_visible");
 };
 
+function initAddTodoForm() {
+  addTodoForm.addEventListener("submit", (evt) => {
+    evt.preventDefault();
+    const name = evt.target.name.value;
+    const dateInput = evt.target.date.value;
+    const date = new Date(dateInput);
+
+    date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+
+    const id = uuidv4();
+
+    const values = { name, date, id };
+    const todo = generateTodo(values);
+
+    todosList.append(todo);
+    todoCounter.updateTotal(true);
+
+    // reset form and close popup properly
+    addTodoForm.reset();
+    closeModal(addTodoPopupEl);
+  });
+}
+
 function handleCheck(completed) {
   todoCounter.updateCompleted(completed);
 }
 
 function handleDelete(completed) {
+  todoCounter.updateTotal(false);
   if (completed) {
     todoCounter.updateCompleted(false);
   }
 }
+
 const generateTodo = (data) => {
   const todo = new Todo(data, "#todo-template", handleCheck, handleDelete);
   const todoElement = todo.getView();
@@ -66,6 +76,7 @@ section.renderItems();
 
 addTodoCloseBtn.addEventListener("click", () => {
   closeModal(addTodoPopupEl);
+  console.log;
 });
 
 addTodoButton.addEventListener("click", () => {
@@ -73,4 +84,5 @@ addTodoButton.addEventListener("click", () => {
 });
 
 const newTodoValidator = new FormValidator(validationConfig, addTodoForm);
+
 newTodoValidator.enableValidation();
