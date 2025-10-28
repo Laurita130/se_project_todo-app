@@ -24,32 +24,25 @@ class FormValidator {
   }
 
   _toggleButtonState() {
-    this._submitButtonEl = this._formEl.querySelector(
-      this._submitButtonSelector
-    );
     if (this._hasInvalidInput(this._inputList)) {
-      this._submitButtonEl.classList.add(this._inactiveButtonClass);
-      this._submitButtonEl.disabled = true;
+      this._submitButton.classList.add(this._inactiveButtonClass);
+      this._submitButton.disabled = true;
     } else {
-      this._submitButtonEl.classList.remove(this._inactiveButtonClass);
-      this._submitButtonEl.disabled = false;
+      this._submitButton.classList.remove(this._inactiveButtonClass);
+      this._submitButton.disabled = false;
     }
   }
-  _hasInvalidInput(inputList) {
-    return inputList.some((inputElement) => {
+  _hasInvalidInput() {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   }
 
   _checkInputValidity(inputElement) {
     if (!inputElement.validity.valid) {
-      this._showInputError(
-        this._formEl,
-        inputElement,
-        inputElement.validationMessage
-      );
+      this._showInputError(inputElement, inputElement.validationMessage);
     } else {
-      this._hideInputError(this._formEl, inputElement);
+      this._hideInputError(inputElement);
     }
   }
 
@@ -69,19 +62,18 @@ class FormValidator {
   enableValidation() {
     this._formEl.addEventListener("submit", (evt) => {
       evt.preventDefault();
-      this._formEl.reset(
-        this._toggleButtonState(this._inputList, this._submitButtonSelector)
-      );
+      this.resetValidation();
     });
     this._setEventListeners();
-    this._toggleButtonState(this._inputList, this._submitButtonSelector);
+    this._toggleButtonState();
   }
 
   resetValidation() {
+    this._formEl.reset();
     this._inputList.forEach((inputElement) => {
-      this._hideInputError(this._formEl, inputElement);
+      this._hideInputError(inputElement);
     });
-    this._toggleButtonState(this._inputList, this._submitButtonSelector);
+    this._toggleButtonState();
   }
 }
 

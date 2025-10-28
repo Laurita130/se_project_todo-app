@@ -17,12 +17,17 @@ const todoCounter = new TodoCounter(initialTodos, ".counter__text");
 
 initAddTodoForm();
 
-const openModal = (modal) => {
-  modal.classList.add("popup_visible");
-};
-const closeModal = (modal) => {
-  modal.classList.remove("popup_visible");
-};
+const { closeModal, openModal } = newFunction();
+
+function newFunction() {
+  const openModal = (modal) => {
+    modal.classList.add("popup_visible");
+  };
+  const closeModal = (modal) => {
+    modal.classList.remove("popup_visible");
+  };
+  return { closeModal, openModal };
+}
 
 function initAddTodoForm() {
   addTodoForm.addEventListener("submit", (evt) => {
@@ -74,13 +79,12 @@ const section = new Section({
 });
 section.renderItems();
 
-addTodoCloseBtn.addEventListener("click", () => {
-  closeModal(addTodoPopupEl);
-  console.log;
-});
-
 addTodoButton.addEventListener("click", () => {
   openModal(addTodoPopupEl);
+});
+
+addTodoCloseBtn.addEventListener("click", () => {
+  closeModal(addTodoPopupEl);
 });
 
 const newTodoValidator = new FormValidator(validationConfig, addTodoForm);
