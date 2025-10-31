@@ -2,8 +2,9 @@ import { initialTodos, validationConfig } from "../utils/constants.js";
 import Todo from "../components/Todo.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
-import PopupWithForm from "../components/PopusWithForm.js";
+import PopupWithForm from "../components/PopupWithForm.js";
 import TodoCounter from "../components/TodoCounter.js";
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 
 const addTodoButton = document.querySelector(".button_action_add");
 const addTodoPopupEl = document.querySelector("#add-todo-popup");
@@ -15,6 +16,7 @@ const todoCounter = new TodoCounter(initialTodos, ".counter__text");
 const popupWithForm = new PopupWithForm({
   popupSelector: "#add-todo-popup",
   handleFormSubmit: (formData) => {
+    formData.id = uuidv4();
     const todo = generateTodo(formData);
     todosList.append(todo);
     todoCounter.updateTotal(true);
